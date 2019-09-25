@@ -1,26 +1,33 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import Login from './components/login/login'
+import PropTypes from 'prop-types';
+
+//import { black } from 'material-ui/styles/colors';
+import { white } from 'material-ui/styles/colorManipulator';
+//import { grey100 } from 'material-ui/styles/colors';
+import { grey600 } from 'material-ui/styles/colorManipulator';
+
 
 function App() {
+
+ 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div style={appstyle}>
+        <Login/>
+      </div>
+    </Router>
   );
 }
 
+App.propTypes = {
+  env: PropTypes.object.isRequired
+};
+
+const appstyle ={
+  backgroundColor: grey600,
+  color: white
+}
+ 
 export default App;
