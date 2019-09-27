@@ -14,15 +14,18 @@ const viewdriver = () => {
             <Row>
                 <Col>
                     <Card className="mb-3">
-                        <CardHeader>Tiemtable</CardHeader>
+                        <CardHeader>Drivers</CardHeader>
                         <CardBody>
                             <Table responsive>
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Username</th>
+                                        <th>Driver ID</th>
+                                        <th>License Number</th>
+                                        <th>Full Name</th>
+                                        <th>Age</th>
+                                        <th>Gender</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -31,18 +34,24 @@ const viewdriver = () => {
                                         <td>Mark</td>
                                         <td>Otto</td>
                                         <td>@mdo</td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                     <tr>
                                         <th scope="row">2</th>
                                         <td>Jacob</td>
                                         <td>Thornton</td>
                                         <td>@fat</td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                     <tr>
                                         <th scope="row">3</th>
                                         <td>Larry</td>
                                         <td>the Bird</td>
                                         <td>@twitter</td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                 </tbody>
                             </Table>

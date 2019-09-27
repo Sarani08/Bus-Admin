@@ -20,9 +20,9 @@ const viewstation = () => {
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Username</th>
+                                        <th>Station ID</th>
+                                        <th>Station Name</th>
+                                        <th>Location</th>
                                     </tr>
                                 </thead>
                                 <tbody>

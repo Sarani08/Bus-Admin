@@ -8,14 +8,10 @@ import componentQueries from 'react-component-queries';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import './styles/reduction.scss';
 
-const AlertPage = React.lazy(() => import('pages/AlertPage'));
 const AuthModalPage = React.lazy(() => import('pages/AuthModalPage'));
-const BadgePage = React.lazy(() => import('pages/BadgePage'));
 const CardPage = React.lazy(() => import('pages/CardPage'));
 const ChartPage = React.lazy(() => import('pages/ChartPage'));
 const DashboardPage = React.lazy(() => import('pages/DashboardPage'));
-const ModalPage = React.lazy(() => import('pages/ModalPage'));
-const ProgressPage = React.lazy(() => import('pages/ProgressPage'));
 const WidgetPage = React.lazy(() => import('pages/WidgetPage'));
 const CreateTimetable = React.lazy(() => import('pages/Timetable/createtimetable'));
 const CreateStation = React.lazy(() => import('pages/Station/createstation'));
@@ -63,10 +59,6 @@ class App extends React.Component {
                 <Route exact path="/login-modal" component={AuthModalPage} />
                 <Route exact path="/cards" component={CardPage} />
                 <Route exact path="/widgets" component={WidgetPage} />
-                <Route exact path="/alerts" component={AlertPage} />
-                <Route exact path="/badges" component={BadgePage} />
-                <Route exact path="/progress" component={ProgressPage} />
-                <Route exact path="/modals" component={ModalPage} />
                 <Route exact path="/charts" component={ChartPage} />
                 <Route exact path="/createtimetable" component={CreateTimetable} />
                 <Route exact path="/createstation" component={CreateStation} />

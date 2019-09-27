@@ -20,9 +20,12 @@ const viewbus = () => {
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Username</th>
+                                        <th>Bus Reg Number</th>
+                                        <th>Model</th>
+                                        <th>Mileage</th>
+                                        <th>Fuel Efficiency</th>
+                                        <th>Manufactured Year</th>
+                                        <th>Driver Id</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -31,18 +34,27 @@ const viewbus = () => {
                                         <td>Mark</td>
                                         <td>Otto</td>
                                         <td>@mdo</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                     <tr>
                                         <th scope="row">2</th>
                                         <td>Jacob</td>
                                         <td>Thornton</td>
                                         <td>@fat</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                     <tr>
                                         <th scope="row">3</th>
                                         <td>Larry</td>
                                         <td>the Bird</td>
                                         <td>@twitter</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                 </tbody>
                             </Table>

@@ -14,15 +14,17 @@ const viewtimetable = () => {
             <Row>
                 <Col>
                     <Card className="mb-3">
-                        <CardHeader>Tiemtable</CardHeader>
+                        <CardHeader>Timetable</CardHeader>
                         <CardBody>
                             <Table responsive>
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Username</th>
+                                        <th>ID</th>
+                                        <th>Travel Date</th>
+                                        <th>Travel Time</th>
+                                        <th>Boarding Gate</th>
+                                        <th>Bus Reg Number</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -31,18 +33,24 @@ const viewtimetable = () => {
                                         <td>Mark</td>
                                         <td>Otto</td>
                                         <td>@mdo</td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                     <tr>
                                         <th scope="row">2</th>
                                         <td>Jacob</td>
                                         <td>Thornton</td>
                                         <td>@fat</td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                     <tr>
                                         <th scope="row">3</th>
                                         <td>Larry</td>
                                         <td>the Bird</td>
                                         <td>@twitter</td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                 </tbody>
                             </Table>
