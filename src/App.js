@@ -8,7 +8,6 @@ import componentQueries from 'react-component-queries';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import './styles/reduction.scss';
 
-const AuthModalPage = React.lazy(() => import('pages/AuthModalPage'));
 const CardPage = React.lazy(() => import('pages/CardPage'));
 const ChartPage = React.lazy(() => import('pages/ChartPage'));
 const DashboardPage = React.lazy(() => import('pages/DashboardPage'));
@@ -56,7 +55,6 @@ class App extends React.Component {
             <MainLayout breakpoint={this.props.breakpoint}>
               <React.Suspense fallback={<PageSpinner />}>
                 <Route exact path="/" component={DashboardPage} />
-                <Route exact path="/login-modal" component={AuthModalPage} />
                 <Route exact path="/cards" component={CardPage} />
                 <Route exact path="/widgets" component={WidgetPage} />
                 <Route exact path="/charts" component={ChartPage} />

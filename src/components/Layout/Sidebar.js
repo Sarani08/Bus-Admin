@@ -1,6 +1,5 @@
 import logo200Image from 'assets/img/logo/logo_200.png';
 import sidebarBgImage from 'assets/img/sidebar/sidebar-4.jpg';
-import SourceLink from 'components/SourceLink';
 import React from 'react';
 import { FaGithub } from 'react-icons/fa';
 import {
@@ -46,13 +45,7 @@ const sidebarBackground = {
 
 const pageContents = [
   { to: '/login', name: 'login / signup', exact: false, Icon: MdAccountCircle },
-  {
-    to: '/login-modal',
-    name: 'login modal',
-    exact: false,
-    Icon: MdViewCarousel,
-  },
-];
+ ];
 
 const navComponents = [
   { to: '/badges', name: 'badges', exact: false, Icon: MdStar },
@@ -118,11 +111,9 @@ class Sidebar extends React.Component {
         <div className={bem.e('background')} style={sidebarBackground} />
         <div className={bem.e('content')}>
           <Navbar>
-            <SourceLink className="navbar-brand d-flex">
               <span className="text-white">
-                Admin Portal <FaGithub />
+                Admin Portal 
               </span>
-            </SourceLink>
           </Navbar>
           <Nav vertical>
             {navItems.map(({ to, name, exact, Icon }, index) => (
