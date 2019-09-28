@@ -1,5 +1,5 @@
 import Page from 'components/Page';
-import React from 'react';
+import React, { Component } from 'react';
 import {
     Button,
     Card,
@@ -14,8 +14,62 @@ import {
     Label,
     Row,
 } from 'reactstrap';
+import firebase from '../Firebase';
 
-const createbus = () => {
+
+class createbus extends Component {
+
+    constructor() {
+        super();
+
+        this.ref = firebase.firestore().collection('buses');
+
+        this.state = {
+            busregnumber: '',
+            model: '',
+            mileage: '',
+            fuelefficiency: '',
+            manufacturedyear: ''
+        };
+    }
+
+    onChange = (e) => {
+        const state = this.state
+        state[e.target.name] = e.target.value;
+        this.setState(state);
+    }
+
+
+    onSubmit = (e) => {
+        e.preventDefault();
+
+        const { busregnumber, model, mileage, fuelefficiency, manufacturedyear } = this.state;
+
+        this.ref.add({
+            busregnumber,
+            model,
+            mileage,
+            fuelefficiency,
+            manufacturedyear
+        }).then((docRef) => {
+            this.setState({
+            busregnumber: '',
+            model: '',
+            mileage: '',
+            fuelefficiency: '',
+            manufacturedyear: ''
+            });
+            this.props.history.push("/")
+        })
+            .catch((error) => {
+                console.error("Error adding document: ", error);
+            });
+    }
+
+
+
+
+render() {
     return (
         <Page title="Add Bus" breadcrumbs={[{ name: 'Add Bus', active: true }]}>
             <Row>
@@ -23,20 +77,22 @@ const createbus = () => {
                     <Card>
                         <CardHeader>Bus</CardHeader>
                         <CardBody>
-                            <Form>
+                            <Form onSubmit={this.onSubmit}>
                             <FormGroup>
                                     <Label for="busregnumber">Bus Reg Number</Label>
                                     <Input
                                         type="text"
                                         name="busregnumber"
+                                        onChange={this.onChange}
                                     />
                                 </FormGroup>
                                 <FormGroup>
                                     <Label for="model">Model</Label>
                                     <Input
                                         type="text"
-                                        name="fullname"
+                                        name="model"
                                         placeholder="Enter model(toyota,nissan)"
+                                        onChange={this.onChange}
                                     />
                                 </FormGroup>
                                 
@@ -46,6 +102,8 @@ const createbus = () => {
                                         type="number"
                                         name="mileage"
                                         placeholder="mileage placeholder"
+                                        onChange={this.onChange}
+
                                     />
                                 </FormGroup>
                                 <FormGroup>
@@ -54,6 +112,8 @@ const createbus = () => {
                                         type="number"
                                         name="fuelefficiency"
                                         placeholder="fuel efficiency placeholder"
+                                        onChange={this.onChange}
+
                                     />
                                 </FormGroup>
                                 <FormGroup>
@@ -61,6 +121,7 @@ const createbus = () => {
                                     <Input
                                         type="date"
                                         name="manufacturedyear"
+                                        onChange={this.onChange}
                                     />
                                 </FormGroup>
                                 <FormGroup check row>
@@ -76,6 +137,7 @@ const createbus = () => {
             </Row>
         </Page>
     );
-};
+}
+}
 
 export default createbus;

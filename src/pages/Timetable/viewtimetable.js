@@ -1,10 +1,52 @@
 import Page from 'components/Page';
-import React from 'react';
+import React, { Component } from 'react';
 import { Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
+import firebase from '../Firebase';
+import { Link } from 'react-router-dom';
 
-const tableTypes = ['', 'bordered', 'striped', 'hover'];
 
-const viewtimetable = () => {
+class viewtimetable extends Component{
+
+    constructor(props) {
+        super(props);
+        this.ref = firebase.firestore().collection('timetables');
+        this.unsubscribe = null;
+        this.state = {
+            timetables: []
+        };
+      }
+
+      onCollectionUpdate = (querySnapshot) => {
+        const timetables = [];
+        querySnapshot.forEach((doc) => {
+            const { traveldate, traveltime, boardinggate}  = doc.data();
+
+            timetables.push({
+            key: doc.id,
+            traveldate,
+            traveltime,
+            boardinggate
+        });
+        });
+        this.setState({
+            timetables
+       });
+      }
+    
+      componentDidMount() {
+        this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+      } 
+
+      delete(id){
+        firebase.firestore().collection('timetables').doc(id).delete().then(() => {
+          console.log("Document successfully deleted!");
+          this.props.history.push("/")
+        }).catch((error) => {
+          console.error("Error removing document: ", error);
+        });
+      }
+
+render(){
     return (
         <Page
             title="View Timetable"
@@ -19,39 +61,26 @@ const viewtimetable = () => {
                             <Table responsive>
                                 <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>ID</th>
                                         <th>Travel Date</th>
                                         <th>Travel Time</th>
                                         <th>Boarding Gate</th>
                                         <th>Bus Reg Number</th>
+                                        <th>Edit</th>
+                                        <th>Delete</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                        <td>@twitter</td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
+                                {this.state.timetables.map(timetable =>
+                  <tr>
+                    <td><Link to={`/show/${timetable.key}`}>{timetable.key}</Link></td>
+                    <td>{timetable.traveldate}</td>
+                    <td>{timetable.traveltime}</td>
+                    <td>{timetable.boardinggate}</td>
+                    <td><Link to={`/edit/${this.state.key}`} class="btn btn-success">Edit</Link></td>
+                    <td><button onClick={this.delete.bind(this, timetable.key)} class="btn btn-danger">Delete</button></td>
+                  </tr>
+                )}
                                 </tbody>
                             </Table>
                         </CardBody>
@@ -62,6 +91,7 @@ const viewtimetable = () => {
 
         </Page>
     );
-};
+}
+}
 
 export default viewtimetable;

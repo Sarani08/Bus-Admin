@@ -8,9 +8,6 @@ class AuthForm extends React.Component {
     return this.props.authState === STATE_LOGIN;
   }
 
-  get isSignup() {
-    return this.props.authState === STATE_SIGNUP;
-  }
 
   changeAuthState = authState => event => {
     event.preventDefault();
@@ -27,10 +24,6 @@ class AuthForm extends React.Component {
 
     if (!buttonText && this.isLogin) {
       return 'Login';
-    }
-
-    if (!buttonText && this.isSignup) {
-      return 'Signup';
     }
 
     return buttonText;
@@ -92,15 +85,14 @@ class AuthForm extends React.Component {
         </Button>
 
         <div className="text-center pt-1">
-          <h6>or</h6>
           <h6>
             {this.isSignup ? (
               <a href="#login" onClick={this.changeAuthState(STATE_LOGIN)}>
                 Login
               </a>
             ) : (
-              <a href="#signup" onClick={this.changeAuthState(STATE_SIGNUP)}>
-                Signup
+              <a href="#signup">
+                
               </a>
             )}
           </h6>
@@ -113,10 +105,9 @@ class AuthForm extends React.Component {
 }
 
 export const STATE_LOGIN = 'LOGIN';
-export const STATE_SIGNUP = 'SIGNUP';
 
 AuthForm.propTypes = {
-  authState: PropTypes.oneOf([STATE_LOGIN, STATE_SIGNUP]).isRequired,
+  authState: PropTypes.oneOf([STATE_LOGIN]).isRequired,
   showLogo: PropTypes.bool,
   usernameLabel: PropTypes.string,
   usernameInputProps: PropTypes.object,

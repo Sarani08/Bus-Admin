@@ -1,5 +1,5 @@
 import Page from 'components/Page';
-import React from 'react';
+import React, {Component} from 'react';
 import {
     Button,
     Card,
@@ -14,8 +14,55 @@ import {
     Label,
     Row,
 } from 'reactstrap';
+import firebase from '../Firebase';
 
-const createtimetable = () => {
+
+class createtimetable extends Component {
+
+    constructor() {
+        super();
+
+        this.ref = firebase.firestore().collection('timetables');
+
+        this.state = {
+            traveldate: '',
+            traveltime: '',
+            boardinggate: ''
+
+                };
+    }
+    onChange = (e) => {
+        const state = this.state
+        state[e.target.name] = e.target.value;
+        this.setState(state);
+    }
+
+
+    onSubmit = (e) => {
+        e.preventDefault();
+
+        const { traveldate, traveltime, boardinggate} = this.state;
+
+        this.ref.add({
+            traveldate,
+            traveltime,
+            boardinggate
+        }).then((docRef) => {
+            this.setState({
+                traveldate: '',
+                traveltime: '',
+                boardinggate: ''
+            });
+            this.props.history.push("/")
+        })
+            .catch((error) => {
+                console.error("Error adding document: ", error);
+            });
+    }
+
+
+
+render() {
     return (
         <Page title="Add Timetable" breadcrumbs={[{ name: 'Add Timetable', active: true }]}>
             <Row>
@@ -23,12 +70,14 @@ const createtimetable = () => {
                     <Card>
                         <CardHeader>Timetable</CardHeader>
                         <CardBody>
-                            <Form>
+                            <Form onSubmit={this.onSubmit}>
                                 <FormGroup>
                                     <Label for="traveldate">Travel Date</Label>
                                     <Input
                                         type="date"
                                         name="traveldate"
+                                        onChange={this.onChange}
+
                                      />
                                 </FormGroup>
                                 <FormGroup>
@@ -36,6 +85,8 @@ const createtimetable = () => {
                                     <Input
                                         type="time"
                                         name="traveltime"
+                                        onChange={this.onChange}
+
                                     />
                                 </FormGroup>
 
@@ -44,6 +95,8 @@ const createtimetable = () => {
                                     <Input
                                         type="text"
                                         name="boardinggate"
+                                        onChange={this.onChange}
+
                                     />
                                 </FormGroup>
 
@@ -60,6 +113,7 @@ const createtimetable = () => {
             </Row>
         </Page>
     );
-};
+}
+}
 
 export default createtimetable;

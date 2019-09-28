@@ -1,5 +1,5 @@
 import Page from 'components/Page';
-import React from 'react';
+import React, { Component } from 'react';
 import {
     Button,
     Card,
@@ -14,8 +14,63 @@ import {
     Label,
     Row,
 } from 'reactstrap';
+import firebase from '../Firebase';
 
-const createroute = () => {
+class createroute extends Component {
+
+    constructor() {
+        super();
+
+        this.ref = firebase.firestore().collection('routes');
+
+        this.state = {
+            routename: '',
+            startstation: '',
+            finalstation: '',
+            distance: '',
+            avgtraveltime: ''
+        };
+    }
+
+    
+    onChange = (e) => {
+        const state = this.state
+        state[e.target.name] = e.target.value;
+        this.setState(state);
+    }
+
+
+    onSubmit = (e) => {
+        e.preventDefault();
+
+        const { routename, startstation, finalstation, distance, avgtraveltime } = this.state;
+
+        this.ref.add({
+            routename,
+            startstation,
+            finalstation,
+            distance,
+            avgtraveltime
+        }).then((docRef) => {
+            this.setState({
+                routename: '',
+                startstation: '',
+                finalstation: '',
+                distance: '',
+                avgtraveltime: ''
+            });
+            this.props.history.push("/")
+        })
+            .catch((error) => {
+                console.error("Error adding document: ", error);
+            });
+    }
+
+
+
+render() {
+    const { routename, startstation, finalstation, distance, avgtraveltime } = this.state;
+
     return (
         <Page title="Add Route" breadcrumbs={[{ name: 'Add Route', active: true }]}>
             <Row>
@@ -23,12 +78,13 @@ const createroute = () => {
                     <Card>
                         <CardHeader>Route</CardHeader>
                         <CardBody>
-                            <Form>
+                            <Form onSubmit={this.onSubmit}>
                             <FormGroup>
                                     <Label for="routename">Route Name</Label>
                                     <Input
                                         type="text"
                                         name="routename"
+                                        onChange={this.onChange}
                                     />
                                 </FormGroup>
                                 <FormGroup>
@@ -36,6 +92,8 @@ const createroute = () => {
                                     <Input
                                         type="text"
                                         name="startstation"
+                                        onChange={this.onChange}
+
                                     />
                                 </FormGroup>
                                 <FormGroup>
@@ -43,6 +101,7 @@ const createroute = () => {
                                     <Input
                                         type="text"
                                         name="finalstation"
+                                        onChange={this.onChange}
                                     />
                                 </FormGroup>
                                 <FormGroup>
@@ -50,6 +109,7 @@ const createroute = () => {
                                     <Input
                                         type="number"
                                         name="distance"
+                                        onChange={this.onChange}
                                     />
                                 </FormGroup>
                                  <FormGroup>
@@ -57,6 +117,7 @@ const createroute = () => {
                                     <Input
                                         type="time"
                                         name="avgtraveltime"
+                                        onChange={this.onChange}
                                     />
                                 </FormGroup>
                                 <FormGroup check row>
@@ -72,6 +133,7 @@ const createroute = () => {
             </Row>
         </Page>
     );
-};
+}
+}
 
 export default createroute;

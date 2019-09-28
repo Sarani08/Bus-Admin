@@ -44,7 +44,7 @@ const sidebarBackground = {
 
 
 const pageContents = [
-  { to: '/login', name: 'login / signup', exact: false, Icon: MdAccountCircle },
+  { to: '/login', name: 'login ', exact: false, Icon: MdAccountCircle },
  ];
 
 const navComponents = [
