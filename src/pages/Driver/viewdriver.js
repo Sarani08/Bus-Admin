@@ -1,10 +1,52 @@
 import Page from 'components/Page';
-import React from 'react';
+import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
 import { Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
+import firebase from '../Firebase';
 
-const tableTypes = ['', 'bordered', 'striped', 'hover'];
 
-const viewdriver = () => {
+class viewdriver extends Component {
+
+    constructor(props) {
+        super(props);
+        this.ref = firebase.firestore().collection('drivers');
+        this.unsubscribe = null;
+        this.state = {
+            drivers: []
+        };
+      }
+
+      onCollectionUpdate = (querySnapshot) => {
+        const drivers = [];
+        querySnapshot.forEach((doc) => {
+            const { licensenumber, fullname, age, gender }  = doc.data();
+          drivers.push({
+            key: doc.id,
+            licensenumber,
+            fullname,
+            age,
+            gender,
+          });
+        });
+        this.setState({
+            drivers
+       });
+      }
+    
+      componentDidMount() {
+        this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+      }
+
+      delete(id){
+        firebase.firestore().collection('drivers').doc(id).delete().then(() => {
+          console.log("Document successfully deleted!");
+          this.props.history.push("/")
+        }).catch((error) => {
+          console.error("Error removing document: ", error);
+        });
+      }
+
+render(){
     return (
         <Page
             title="View Driver"
@@ -19,40 +61,27 @@ const viewdriver = () => {
                             <Table responsive>
                                 <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>Driver ID</th>
                                         <th>License Number</th>
                                         <th>Full Name</th>
                                         <th>Age</th>
                                         <th>Gender</th>
-
+                                        <th></th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                        <td>@twitter</td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
+                                {this.state.drivers.map(driver =>
+                  <tr>
+                    <td>{driver.key}</td>
+                    <td>{driver.licensenumber}</td>
+                    <td>{driver.fullname}</td>
+                    <td>{driver.age}</td>
+                    <td>{driver.gender}</td>
+                    <td><Link to={`/editdriver/${driver.key}`} class="btn btn-success">Edit</Link></td>
+                    <td><button onClick={this.delete.bind(this, driver.key)} class="btn btn-danger">Delete</button></td>
+                  </tr>
+                )}
                                 </tbody>
                             </Table>
                         </CardBody>
@@ -63,6 +92,7 @@ const viewdriver = () => {
 
         </Page>
     );
-};
+}
+}
 
 export default viewdriver;

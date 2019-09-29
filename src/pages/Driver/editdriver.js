@@ -7,9 +7,7 @@ import {
     CardHeader,
     Col,
     Form,
-    FormFeedback,
     FormGroup,
-    FormText,
     Input,
     Label,
     Row,
@@ -17,12 +15,11 @@ import {
 import firebase from '../Firebase';
 
 
-class createdriver extends Component {
+class editdriver extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
-        this.ref = firebase.firestore().collection('drivers');
 
         this.state = {
             licensenumber: '',
@@ -33,10 +30,29 @@ class createdriver extends Component {
     }
 
 
+    componentDidMount() {
+        const ref = firebase.firestore().collection('drivers').doc(this.props.match.params.id);
+        ref.get().then((doc) => {
+            if (doc.exists) {
+                const driver = doc.data();
+                this.setState({
+                    key: doc.id,
+                    licensenumber: driver.licensenumber,
+                    fullname: driver.fullname,
+                    age: driver.age,
+                    gender: driver.gender
+
+                });
+            } else {
+                console.log("No such document!");
+            }
+        });
+    }
+
     onChange = (e) => {
         const state = this.state
         state[e.target.name] = e.target.value;
-        this.setState(state);
+        this.setState({driver:state});
     }
 
 
@@ -45,7 +61,8 @@ class createdriver extends Component {
 
         const { licensenumber, fullname, age, gender } = this.state;
 
-        this.ref.add({
+        const updateRef = firebase.firestore().collection('drivers').doc(this.state.key);
+        updateRef.set({
             licensenumber,
             fullname,
             age,
@@ -80,6 +97,7 @@ class createdriver extends Component {
                                         <Input
                                             type="text"
                                             name="licensenumber"
+                                            value={this.state.licensenumber}
                                             onChange={this.onChange}
                                         />
                                     </FormGroup>
@@ -89,6 +107,7 @@ class createdriver extends Component {
                                             type="text"
                                             name="fullname"
                                             placeholder="Enter full name"
+                                            value={this.state.fullname}
                                             onChange={this.onChange}
                                         />
                                     </FormGroup>
@@ -97,6 +116,7 @@ class createdriver extends Component {
                                         <Input
                                             type="number"
                                             name="age"
+                                            value={this.state.age}
                                             onChange={this.onChange}
                                         />
                                     </FormGroup>
@@ -142,4 +162,4 @@ class createdriver extends Component {
     }
 }
 
-export default createdriver;
+export default editdriver;

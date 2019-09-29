@@ -1,4 +1,4 @@
-import { STATE_LOGIN, STATE_SIGNUP } from 'components/AuthForm';
+import { STATE_LOGIN } from 'components/AuthForm';
 import GAListener from 'components/GAListener';
 import { EmptyLayout, LayoutRoute, MainLayout } from 'components/Layout';
 import PageSpinner from 'components/PageSpinner';
@@ -7,6 +7,7 @@ import React from 'react';
 import componentQueries from 'react-component-queries';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import './styles/reduction.scss';
+import firebase from './pages/Firebase';
 
 const CardPage = React.lazy(() => import('pages/CardPage'));
 const ChartPage = React.lazy(() => import('pages/ChartPage'));
@@ -22,7 +23,11 @@ const ViewStation = React.lazy(() => import('pages/Station/viewstation'));
 const ViewRoute = React.lazy(() => import('pages/Route/viewroute'));
 const ViewBus = React.lazy(() => import('pages/Bus/viewbus'));
 const ViewDriver = React.lazy(() => import('pages/Driver/viewdriver'));
-
+const EditTimetable = React.lazy(() => import('pages/Timetable/edittimetable'));
+const EditStation = React.lazy(() => import('pages/Station/editstation'));
+const EditRoute = React.lazy(() => import('pages/Route/editroute'));
+const EditBus = React.lazy(() => import('pages/Bus/editbus'));
+const EditDriver = React.lazy(() => import('pages/Driver/editdriver'));
 
 
 const getBasename = () => {
@@ -43,15 +48,7 @@ class App extends React.Component {
                 <AuthPage {...props} authState={STATE_LOGIN} />
               )}
             />
-            <LayoutRoute
-              exact
-              path="/signup"
-              layout={EmptyLayout}
-              component={props => (
-                <AuthPage {...props} authState={STATE_SIGNUP} />
-              )}
-            />
-
+           
             <MainLayout breakpoint={this.props.breakpoint}>
               <React.Suspense fallback={<PageSpinner />}>
                 <Route exact path="/" component={DashboardPage} />
@@ -68,6 +65,11 @@ class App extends React.Component {
                 <Route exact path="/viewbus" component={ViewBus} />
                 <Route exact path="/viewdriver" component={ViewDriver} />
                 <Route exact path="/viewroute" component={ViewRoute} />
+                <Route exact path="/edittimetable/:id" component={EditTimetable} />
+                <Route exact path="/editstation/:id" component={EditStation} />
+                <Route exact path="/editbus/:id" component={EditBus} />
+                <Route exact path="/editdriver/:id" component={EditDriver} />
+                <Route exact path="/editroute/:id" component={EditRoute} />
 
 
               </React.Suspense>

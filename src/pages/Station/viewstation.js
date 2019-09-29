@@ -1,10 +1,51 @@
 import Page from 'components/Page';
-import React from 'react';
+import React, { Component } from 'react';
 import { Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
+import firebase from '../Firebase';
+import { Link } from 'react-router-dom';
 
-const tableTypes = ['', 'bordered', 'striped', 'hover'];
 
-const viewstation = () => {
+class viewstation extends Component {
+
+    
+    constructor(props) {
+        super(props);
+        this.ref = firebase.firestore().collection('stations');
+        this.unsubscribe = null;
+        this.state = {
+            stations: []
+        };
+      }
+
+      onCollectionUpdate = (querySnapshot) => {
+        const stations = [];
+        querySnapshot.forEach((doc) => {
+            const { stationname, location }  = doc.data();
+
+            stations.push({
+            key: doc.id,
+            stationname,
+            location
+          });
+        });
+        this.setState({
+            stations
+       });
+      }
+    
+      componentDidMount() {
+        this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+      } 
+
+      delete(id){
+        firebase.firestore().collection('stations').doc(id).delete().then(() => {
+          console.log("Document successfully deleted!");
+          this.props.history.push("/")
+        }).catch((error) => {
+          console.error("Error removing document: ", error);
+        });
+      }
+render(){
     return (
         <Page
             title="View Station"
@@ -19,31 +60,23 @@ const viewstation = () => {
                             <Table responsive>
                                 <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>Station ID</th>
                                         <th>Station Name</th>
                                         <th>Location</th>
+                                        <th></th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                        <td>@twitter</td>
-                                    </tr>
+                                {this.state.stations.map(station =>
+                  <tr>
+                    <td>{station.key}</td>
+                    <td>{station.stationname}</td>
+                    <td>{station.location}</td>
+                    <td><Link to={`/editstation/${station.key}`} class="btn btn-success">Edit</Link></td>
+                    <td><button onClick={this.delete.bind(this, station.key)} class="btn btn-danger">Delete</button></td>
+                  </tr>
+                )}
                                 </tbody>
                             </Table>
                         </CardBody>
@@ -54,6 +87,7 @@ const viewstation = () => {
 
         </Page>
     );
-};
+}
+}
 
 export default viewstation;

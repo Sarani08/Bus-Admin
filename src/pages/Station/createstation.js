@@ -1,5 +1,5 @@
 import Page from 'components/Page';
-import React from 'react';
+import React, { Component } from 'react';
 import {
     Button,
     Card,
@@ -14,8 +14,52 @@ import {
     Label,
     Row,
 } from 'reactstrap';
+import firebase from '../Firebase'; 
 
-const createstation = () => {
+
+class createstation extends Component {
+
+    constructor() {
+        super();
+
+        this.ref = firebase.firestore().collection('stations');
+
+        this.state = {
+            stationname: '',
+            location: ''
+        };
+    }
+
+    
+    onChange = (e) => {
+        const state = this.state
+        state[e.target.name] = e.target.value;
+        this.setState(state);
+    }
+
+    onSubmit = (e) => {
+        e.preventDefault();
+
+        const { stationname, location } = this.state;
+
+        this.ref.add({
+            stationname,
+            location
+        }).then((docRef) => {
+            this.setState({
+                stationname: '',
+                location: ''
+            });
+            this.props.history.push("/viewstation")
+        })
+            .catch((error) => {
+                console.error("Error adding document: ", error);
+            });
+    }
+
+
+render(){
+    const { stationname, location } = this.state;
     return (
         <Page title="Add Station" breadcrumbs={[{ name: 'Add Station', active: true }]}>
             <Row>
@@ -23,12 +67,13 @@ const createstation = () => {
                     <Card>
                         <CardHeader>Station</CardHeader>
                         <CardBody>
-                            <Form>
+                            <Form onSubmit={this.onSubmit}>
                             <FormGroup>
                                     <Label for="stationname">Station Name</Label>
                                     <Input
                                         type="text"
                                         name="stationname"
+                                        onChange={this.onChange}
                                     />
                                 </FormGroup>
                                 <FormGroup>
@@ -37,6 +82,7 @@ const createstation = () => {
                                         type="text"
                                         name="location"
                                         placeholder="Enter location"
+                                        onChange={this.onChange}
                                     />
                                 </FormGroup>
 
@@ -53,6 +99,7 @@ const createstation = () => {
             </Row>
         </Page>
     );
-};
+}
+}
 
 export default createstation;

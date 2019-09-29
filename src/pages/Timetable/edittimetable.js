@@ -17,12 +17,12 @@ import {
 import firebase from '../Firebase';
 
 
-class createtimetable extends Component {
+class edittimetable extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
-        this.ref = firebase.firestore().collection('timetables');
+      //  this.ref = firebase.firestore().collection('timetables');
 
         this.state = {
             traveldate: '',
@@ -31,6 +31,27 @@ class createtimetable extends Component {
 
                 };
     }
+
+    componentDidMount() {
+        const ref = firebase.firestore().collection('timetables').doc(this.props.match.params.id);
+        ref.get().then((doc) => {
+            if (doc.exists) {
+                const timetable = doc.data();
+                this.setState({
+                    key: doc.id,
+                    traveldate: timetable.traveldate,
+                    traveltime: timetable.traveltime,
+                    boardinggate: timetable.boardinggate
+        
+
+                });
+            } else {
+                console.log("No such document!");
+            }
+        });
+    }
+
+
     onChange = (e) => {
         const state = this.state
         state[e.target.name] = e.target.value;
@@ -43,7 +64,8 @@ class createtimetable extends Component {
 
         const { traveldate, traveltime, boardinggate} = this.state;
 
-        this.ref.add({
+        const updateRef = firebase.firestore().collection('timetables').doc(this.state.key);
+        updateRef.set({
             traveldate,
             traveltime,
             boardinggate
@@ -76,6 +98,7 @@ render() {
                                     <Input
                                         type="date"
                                         name="traveldate"
+                                        value={this.state.traveldate}
                                         onChange={this.onChange}
 
                                      />
@@ -85,6 +108,7 @@ render() {
                                     <Input
                                         type="time"
                                         name="traveltime"
+                                        value={this.state.traveltime}
                                         onChange={this.onChange}
 
                                     />
@@ -95,6 +119,7 @@ render() {
                                     <Input
                                         type="text"
                                         name="boardinggate"
+                                        value={this.state.boardinggate}
                                         onChange={this.onChange}
 
                                     />
@@ -116,4 +141,4 @@ render() {
 }
 }
 
-export default createtimetable;
+export default edittimetable;

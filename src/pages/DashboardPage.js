@@ -307,23 +307,6 @@ class DashboardPage extends React.Component {
             </Card>
           </Col>
         </Row>
-
-        <CardDeck style={{ marginBottom: '1rem' }}>
-          <Card body style={{ overflowX: 'auto','paddingBottom':'15px','height': 'fit-content','paddingTop': 'inherit'}}>
-            <HorizontalAvatarList
-              avatars={avatarsData}
-              avatarProps={{ size: 50 }}
-            />
-          </Card>
-
-          <Card body style={{ overflowX: 'auto','paddingBottom':'15px','height': 'fit-content','paddingTop': 'inherit'}}>
-            <HorizontalAvatarList
-              avatars={avatarsData}
-              avatarProps={{ size: 50 }}
-              reversed
-            />
-          </Card>
-        </CardDeck>
       </Page>
     );
   }

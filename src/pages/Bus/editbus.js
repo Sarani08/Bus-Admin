@@ -8,9 +8,7 @@ import {
     CardHeader,
     Col,
     Form,
-    FormFeedback,
     FormGroup,
-    FormText,
     Input,
     Label,
     Row,
@@ -19,12 +17,11 @@ import {
 import firebase from '../Firebase';
 
 
-class createbus extends Component {
+class editbus extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
-        this.ref = firebase.firestore().collection('buses');
 
         this.state = {
             busregnumber: '',
@@ -39,10 +36,33 @@ class createbus extends Component {
         };
     }
 
+    componentDidMount() {
+        const ref = firebase.firestore().collection('buses').doc(this.props.match.params.id);
+        ref.get().then((doc) => {
+          if (doc.exists) {
+            const bus = doc.data();
+            this.setState({
+              key: doc.id,
+              busregnumber: bus.busregnumber,
+            model: bus.model,
+            mileage: bus.mileage,
+            fuelefficiency:bus.fuelefficiency,
+            manufacturedyear:bus.manufacturedyear,
+            bname:bus.bname,
+            bno:bus.bno,
+            bprice:bus.bprice,
+            bseat:bus.bseat
+            });
+          } else {
+            console.log("No such document!");
+          }
+        });
+      }
+
     onChange = (e) => {
         const state = this.state
         state[e.target.name] = e.target.value;
-        this.setState(state);
+        this.setState({bus:state});
     }
 
 
@@ -51,7 +71,8 @@ class createbus extends Component {
 
         const { busregnumber, model, mileage, fuelefficiency, manufacturedyear,bname,bno,bprice,bseat } = this.state;
 
-        this.ref.add({
+        const updateRef = firebase.firestore().collection('buses').doc(this.state.key);
+        updateRef.set({
             busregnumber,
             model,
             mileage,
@@ -74,7 +95,7 @@ class createbus extends Component {
             bprice:'',
             bseat:''
             });
-            this.props.history.push("/")
+            this.props.history.push("/viewbus")
         })
         .catch((error) => {
                 console.error("Error adding document: ", error);
@@ -98,6 +119,7 @@ render() {
                                     <Input
                                         type="text"
                                         name="busregnumber"
+                                        value={this.state.busregnumber}
                                         onChange={this.onChange}
                                     />
                                 </FormGroup>
@@ -107,6 +129,7 @@ render() {
                                         type="text"
                                         name="model"
                                         placeholder="Enter model(toyota,nissan)"
+                                        value={this.state.model}
                                         onChange={this.onChange}
                                     />
                                 </FormGroup>
@@ -117,6 +140,7 @@ render() {
                                         type="number"
                                         name="mileage"
                                         placeholder="mileage placeholder"
+                                        value={this.state.mileage}
                                         onChange={this.onChange}
 
                                     />
@@ -127,6 +151,7 @@ render() {
                                         type="number"
                                         name="fuelefficiency"
                                         placeholder="fuel efficiency placeholder"
+                                        value={this.state.fuelefficiency}
                                         onChange={this.onChange}
 
                                     />
@@ -136,6 +161,7 @@ render() {
                                     <Input
                                         type="date"
                                         name="manufacturedyear"
+                                        value={this.state.manufacturedyear}
                                         onChange={this.onChange}
                                     />
                                 </FormGroup>
@@ -144,6 +170,7 @@ render() {
                                     <Input
                                         type="text"
                                         name="bname"
+                                        value={this.state.bname}
                                         onChange={this.onChange}
                                     />
                                 </FormGroup>
@@ -153,6 +180,7 @@ render() {
                                         type="number"
                                         name="bno"
                                         placeholder="Enter bus number(177,174)"
+                                        value={this.state.bno}
                                         onChange={this.onChange}
                                     />
                                 </FormGroup>
@@ -162,6 +190,7 @@ render() {
                                     <Input
                                         type="number"
                                         name="bseat"
+                                        value={this.state.bseat}
                                         onChange={this.onChange}
 
                                     />
@@ -172,6 +201,7 @@ render() {
                                     <Input
                                         type="number"
                                         name="bprice"
+                                        value={this.state.bprice}
                                         onChange={this.onChange}
 
                                     />
@@ -194,4 +224,4 @@ render() {
 }
 }
 
-export default createbus;
+export default editbus;
