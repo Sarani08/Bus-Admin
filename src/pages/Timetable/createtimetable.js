@@ -53,7 +53,7 @@ class createtimetable extends Component {
                 traveltime: '',
                 boardinggate: ''
             });
-            this.props.history.push("/")
+            this.props.history.push("/viewtimetable")
         })
             .catch((error) => {
                 console.error("Error adding document: ", error);

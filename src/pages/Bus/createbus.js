@@ -1,5 +1,6 @@
 import Page from 'components/Page';
 import React, { Component } from 'react';
+import ReactDom from 'react-dom';
 import {
     Button,
     Card,
@@ -13,6 +14,7 @@ import {
     Input,
     Label,
     Row,
+    Alert
 } from 'reactstrap';
 import firebase from '../Firebase';
 
@@ -29,7 +31,11 @@ class createbus extends Component {
             model: '',
             mileage: '',
             fuelefficiency: '',
-            manufacturedyear: ''
+            manufacturedyear: '',
+            bname:'',
+            bno:'',
+            bprice:'',
+            bseat:''
         };
     }
 
@@ -43,25 +49,34 @@ class createbus extends Component {
     onSubmit = (e) => {
         e.preventDefault();
 
-        const { busregnumber, model, mileage, fuelefficiency, manufacturedyear } = this.state;
+        const { busregnumber, model, mileage, fuelefficiency, manufacturedyear,bname,bno,bprice,bseat } = this.state;
 
         this.ref.add({
             busregnumber,
             model,
             mileage,
             fuelefficiency,
-            manufacturedyear
-        }).then((docRef) => {
+            manufacturedyear,
+            bname,
+            bno,
+            bprice,
+            bseat
+        })
+        .then((docRef) => {
             this.setState({
             busregnumber: '',
             model: '',
             mileage: '',
             fuelefficiency: '',
-            manufacturedyear: ''
+            manufacturedyear: '',
+            bname:'',
+            bno:'',
+            bprice:'',
+            bseat:''
             });
             this.props.history.push("/")
         })
-            .catch((error) => {
+        .catch((error) => {
                 console.error("Error adding document: ", error);
             });
     }
@@ -124,11 +139,50 @@ render() {
                                         onChange={this.onChange}
                                     />
                                 </FormGroup>
+                                <FormGroup>
+                                    <Label for="bname">Bus Name</Label>
+                                    <Input
+                                        type="text"
+                                        name="bname"
+                                        onChange={this.onChange}
+                                    />
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="bno">Bus Route Number</Label>
+                                    <Input
+                                        type="number"
+                                        name="bno"
+                                        placeholder="Enter bus number(177,174)"
+                                        onChange={this.onChange}
+                                    />
+                                </FormGroup>
+                                
+                                <FormGroup>
+                                    <Label for="bseat">Number of seats</Label>
+                                    <Input
+                                        type="number"
+                                        name="bseat"
+                                        onChange={this.onChange}
+
+                                    />
+                                </FormGroup>
+
+                                <FormGroup>
+                                    <Label for="bprice">Ticket price</Label>
+                                    <Input
+                                        type="number"
+                                        name="bprice"
+                                        onChange={this.onChange}
+
+                                    />
+                                </FormGroup>
+
                                 <FormGroup check row>
                                     <Col sm={{ size: 10, offset: 2 }}>
                                         <Button>Submit</Button>
                                     </Col>
                                 </FormGroup>
+
                             </Form>
                         </CardBody>
                     </Card>

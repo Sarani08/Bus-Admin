@@ -59,7 +59,7 @@ class createroute extends Component {
                 distance: '',
                 avgtraveltime: ''
             });
-            this.props.history.push("/")
+            this.props.history.push("/viewroute")
         })
             .catch((error) => {
                 console.error("Error adding document: ", error);

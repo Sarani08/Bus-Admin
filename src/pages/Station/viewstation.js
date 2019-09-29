@@ -63,17 +63,17 @@ render(){
                                         <th>Station ID</th>
                                         <th>Station Name</th>
                                         <th>Location</th>
-                                        <th>Edit</th>
-                                        <th>Delete</th>
+                                        <th></th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 {this.state.stations.map(station =>
                   <tr>
-                    <td><Link to={`/show/${station.key}`}>{station.key}</Link></td>
+                    <td>{station.key}</td>
                     <td>{station.stationname}</td>
                     <td>{station.location}</td>
-                    <td><Link to={`/edit/${this.state.key}`} class="btn btn-success">Edit</Link></td>
+                    <td><Link to={`/editstation/${station.key}`} class="btn btn-success">Edit</Link></td>
                     <td><button onClick={this.delete.bind(this, station.key)} class="btn btn-danger">Delete</button></td>
                   </tr>
                 )}

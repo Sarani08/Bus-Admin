@@ -68,21 +68,21 @@ render(){
                                         <th>Final Station</th>
                                         <th>Distance</th>
                                         <th>Average Travel Time</th>
-                                        <th>Edit</th>
-                                        <th>Delete</th>
+                                        <th></th>
+                                        <th></th>
 
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {this.state.routes.map(route =>
                   <tr>
-                    <td><Link to={`/show/${route.key}`}>{route.key}</Link></td>
+                    <td>{route.key}</td>
                     <td>{route.routename}</td>
                     <td>{route.startstation}</td>
                     <td>{route.finalstation}</td>
                     <td>{route.distance}</td>
                     <td>{route.avgtraveltime}</td>
-                    <td><Link to={`/edit/${this.state.key}`} class="btn btn-success">Edit</Link></td>
+                    <td><Link to={`/editroute/${route.key}`} class="btn btn-success">Edit</Link></td>
                     <td><button onClick={this.delete.bind(this, route.key)} class="btn btn-danger">Delete</button></td>
                   </tr>
                 )}

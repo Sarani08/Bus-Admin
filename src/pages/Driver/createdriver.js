@@ -57,7 +57,7 @@ class createdriver extends Component {
                 age: '',
                 gender: ''
             });
-            this.props.history.push("/")
+            this.props.history.push("/viewdriver")
         })
             .catch((error) => {
                 console.error("Error adding document: ", error);

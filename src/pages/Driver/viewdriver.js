@@ -66,19 +66,19 @@ render(){
                                         <th>Full Name</th>
                                         <th>Age</th>
                                         <th>Gender</th>
-                                        <th>Edit</th>
-                                        <th>Delete</th>
+                                        <th></th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 {this.state.drivers.map(driver =>
                   <tr>
-                    <td><Link to={`/show/${driver.key}`}>{driver.key}</Link></td>
+                    <td>{driver.key}</td>
                     <td>{driver.licensenumber}</td>
                     <td>{driver.fullname}</td>
                     <td>{driver.age}</td>
                     <td>{driver.gender}</td>
-                    <td><Link to={`/edit/${this.state.key}`} class="btn btn-success">Edit</Link></td>
+                    <td><Link to={`/editdriver/${driver.key}`} class="btn btn-success">Edit</Link></td>
                     <td><button onClick={this.delete.bind(this, driver.key)} class="btn btn-danger">Delete</button></td>
                   </tr>
                 )}

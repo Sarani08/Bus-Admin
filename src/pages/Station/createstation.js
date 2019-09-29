@@ -14,7 +14,7 @@ import {
     Label,
     Row,
 } from 'reactstrap';
-import firebase from '../Firebase';
+import firebase from '../Firebase'; 
 
 
 class createstation extends Component {
@@ -50,7 +50,7 @@ class createstation extends Component {
                 stationname: '',
                 location: ''
             });
-            this.props.history.push("/")
+            this.props.history.push("/viewstation")
         })
             .catch((error) => {
                 console.error("Error adding document: ", error);

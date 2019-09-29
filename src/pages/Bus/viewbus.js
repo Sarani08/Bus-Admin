@@ -19,7 +19,7 @@ class viewbus extends Component {
       onCollectionUpdate = (querySnapshot) => {
         const buses = [];
         querySnapshot.forEach((doc) => {
-            const { busregnumber, model, mileage, fuelefficiency, manufacturedyear }  = doc.data();
+          const { busregnumber, model, mileage, fuelefficiency, manufacturedyear,bname,bno,bprice,bseat }  = doc.data();
 
             buses.push({
             key: doc.id,
@@ -27,7 +27,11 @@ class viewbus extends Component {
             model,
             mileage,
             fuelefficiency,
-            manufacturedyear
+            manufacturedyear,
+            bname,
+            bno,
+            bprice,
+            bseat
           });
         });
         this.setState({
@@ -69,21 +73,29 @@ render(){
                                         <th>Mileage</th>
                                         <th>Fuel Efficiency</th>
                                         <th>Manufactured Year</th>
+                                        <th>Bus Name</th>
+                                        <th>Bus No</th>
+                                        <th>Bus Price</th>
+                                        <th>Bus Seat</th>
                                         <th>Driver Id</th>
-                                        <th>Edit</th>
-                                        <th>Delete</th>
+                                        <th></th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {this.state.buses.map(bus =>
                   <tr>
-                    <td><Link to={`/show/${bus.key}`}>{bus.busregnumber}</Link></td>
+                    <td>{bus.busregnumber}</td>
                     <td>{bus.model}</td>
                     <td>{bus.mileage}</td>
                     <td>{bus.fuelefficiency}</td>
                     <td>{bus.manufacturedyear}</td>
+                    <td>{bus.bname}</td>
+                    <td>{bus.bno}</td>
+                    <td>{bus.bprice}</td>
+                    <td>{bus.bseat}</td>
                     <td></td>
-                    <td><Link to={`/edit/${this.state.key}`} class="btn btn-success">Edit</Link></td>
+                    <td><Link to={`/editbus/${bus.key}`} class="btn btn-success">Edit</Link></td>
                     <td><button onClick={this.delete.bind(this, bus.key)} class="btn btn-danger">Delete</button></td>
                   </tr>
                 )}

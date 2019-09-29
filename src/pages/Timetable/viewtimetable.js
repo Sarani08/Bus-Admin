@@ -66,18 +66,19 @@ render(){
                                         <th>Travel Time</th>
                                         <th>Boarding Gate</th>
                                         <th>Bus Reg Number</th>
-                                        <th>Edit</th>
-                                        <th>Delete</th>
+                                        <th></th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 {this.state.timetables.map(timetable =>
                   <tr>
-                    <td><Link to={`/show/${timetable.key}`}>{timetable.key}</Link></td>
+                    <td>{timetable.key}</td>
                     <td>{timetable.traveldate}</td>
                     <td>{timetable.traveltime}</td>
                     <td>{timetable.boardinggate}</td>
-                    <td><Link to={`/edit/${this.state.key}`} class="btn btn-success">Edit</Link></td>
+                    <td></td>
+                    <td><Link to={`/edittimetable/${timetable.key}`} class="btn btn-success">Edit</Link></td>
                     <td><button onClick={this.delete.bind(this, timetable.key)} class="btn btn-danger">Delete</button></td>
                   </tr>
                 )}
