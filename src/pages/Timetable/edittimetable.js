@@ -41,8 +41,7 @@ class edittimetable extends Component {
                     key: doc.id,
                     traveldate: timetable.traveldate,
                     traveltime: timetable.traveltime,
-                    boardinggate: timetable.boardinggate
-        
+                    boardinggate: timetable.boardinggate       
 
                 });
             } else {
@@ -75,6 +74,7 @@ class edittimetable extends Component {
                 traveltime: '',
                 boardinggate: ''
             });
+            alert('Timetable Edited Successfully');
             this.props.history.push("/viewtimetable")
         })
             .catch((error) => {
@@ -86,7 +86,7 @@ class edittimetable extends Component {
 
 render() {
     return (
-        <Page title="Add Timetable" breadcrumbs={[{ name: 'Add Timetable', active: true }]}>
+        <Page title="Edit Timetable" breadcrumbs={[{ name: 'Edit Timetable', active: true }]}>
             <Row>
                 <Col xl={6} lg={12} md={12}>
                     <Card>
@@ -140,5 +140,6 @@ render() {
     );
 }
 }
+
 
 export default edittimetable;

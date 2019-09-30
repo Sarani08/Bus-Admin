@@ -74,6 +74,7 @@ class editdriver extends Component {
                 age: '',
                 gender: ''
             });
+            alert('Driver Edited Successfully');
             this.props.history.push("/viewdriver")
         })
             .catch((error) => {
@@ -85,7 +86,7 @@ class editdriver extends Component {
     render() {
         const { licensenumber, fullname, age, gender } = this.state;
         return (
-            <Page title="Add Driver" breadcrumbs={[{ name: 'Add Driver', active: true }]}>
+            <Page title="Edit Driver" breadcrumbs={[{ name: 'Edit Driver', active: true }]}>
                 <Row>
                     <Col xl={6} lg={12} md={12}>
                         <Card>

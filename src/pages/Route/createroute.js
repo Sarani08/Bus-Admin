@@ -59,6 +59,7 @@ class createroute extends Component {
                 distance: '',
                 avgtraveltime: ''
             });
+            alert('Route Added Successfully');
             this.props.history.push("/viewroute")
         })
             .catch((error) => {

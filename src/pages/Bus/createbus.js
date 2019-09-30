@@ -8,9 +8,7 @@ import {
     CardHeader,
     Col,
     Form,
-    FormFeedback,
     FormGroup,
-    FormText,
     Input,
     Label,
     Row,
@@ -74,7 +72,8 @@ class createbus extends Component {
             bprice:'',
             bseat:''
             });
-            this.props.history.push("/")
+            alert('Bus Added Successfully');
+            this.props.history.push("/viewbus")
         })
         .catch((error) => {
                 console.error("Error adding document: ", error);

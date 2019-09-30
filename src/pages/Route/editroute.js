@@ -78,6 +78,7 @@ class editroute extends Component {
                     distance: '',
                     avgtraveltime: ''
                 });
+                alert('Route Edited Successfully');
                 this.props.history.push("/viewroute")
             })
                 .catch((error) => {
@@ -91,7 +92,7 @@ class editroute extends Component {
             const { routename, startstation, finalstation, distance, avgtraveltime } = this.state;
 
             return (
-                <Page title="Add Route" breadcrumbs={[{ name: 'Add Route', active: true }]}>
+                <Page title="Edit Route" breadcrumbs={[{ name: 'Edit Route', active: true }]}>
                     <Row>
                         <Col xl={6} lg={12} md={12}>
                             <Card>

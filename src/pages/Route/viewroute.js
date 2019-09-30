@@ -1,8 +1,10 @@
 import Page from 'components/Page';
 import React, { Component } from 'react';
-import { Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
+import { Card, CardBody, CardHeader, Col, Row, Table, Button } from 'reactstrap';
 import firebase from '../Firebase';
 import { Link } from 'react-router-dom';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 class viewroute extends Component{
 
@@ -41,11 +43,39 @@ class viewroute extends Component{
       delete(id){
         firebase.firestore().collection('routes').doc(id).delete().then(() => {
           console.log("Document successfully deleted!");
-          this.props.history.push("/")
+          alert('Route Deleted Successfully');
+          this.props.history.push("/viewroute")
         }).catch((error) => {
           console.error("Error removing document: ", error);
         });
       }
+
+      generatePdf() {
+  
+        var doc = new jsPDF('p', 'pt');
+        var res = doc.autoTableHtmlToJson(document.getElementById("route-table"));
+    
+        var header = function(data) {
+          doc.setFontSize(18);
+          doc.setTextColor(40);
+          doc.setFontStyle('normal');
+          doc.text("Routes Report", data.settings.margin.left, 40);
+        };
+    
+        var options = {
+          margin: {
+            top: 80
+          }, 
+          beforePageContent: header,
+    
+          startY: doc.autoTableEndPosY() + 60
+        };
+      
+        doc.autoTable(res.columns, res.data, options);
+      
+        doc.save("routereport.pdf");
+    
+    }
 
 render(){
     return (
@@ -59,7 +89,7 @@ render(){
                     <Card className="mb-3">
                         <CardHeader>Routes</CardHeader>
                         <CardBody>
-                            <Table responsive>
+                            <Table responsive id="route-table">
                                 <thead>
                                     <tr>
                                         <th>Route ID</th>
@@ -89,6 +119,7 @@ render(){
                                 </tbody>
                             </Table>
                         </CardBody>
+                        <Button color="warning" onClick={() => this.generatePdf()}>Export(pdf)</Button>
                     </Card>
                 </Col>
             </Row>

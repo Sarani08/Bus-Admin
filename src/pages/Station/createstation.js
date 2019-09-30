@@ -50,6 +50,7 @@ class createstation extends Component {
                 stationname: '',
                 location: ''
             });
+            alert('Station Added Successfully');
             this.props.history.push("/viewstation")
         })
             .catch((error) => {

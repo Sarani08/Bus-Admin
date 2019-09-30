@@ -57,6 +57,7 @@ class createdriver extends Component {
                 age: '',
                 gender: ''
             });
+            alert('Driver Added Successfully');
             this.props.history.push("/viewdriver")
         })
             .catch((error) => {

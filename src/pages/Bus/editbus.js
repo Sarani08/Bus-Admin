@@ -95,6 +95,7 @@ class editbus extends Component {
             bprice:'',
             bseat:''
             });
+            alert('Bus Edited Successfully');
             this.props.history.push("/viewbus")
         })
         .catch((error) => {
@@ -107,7 +108,7 @@ class editbus extends Component {
 
 render() {
     return (
-        <Page title="Add Bus" breadcrumbs={[{ name: 'Add Bus', active: true }]}>
+        <Page title="Edit Bus" breadcrumbs={[{ name: 'Edit Bus', active: true }]}>
             <Row>
                 <Col xl={6} lg={12} md={12}>
                     <Card>

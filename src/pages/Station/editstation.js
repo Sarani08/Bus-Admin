@@ -65,6 +65,7 @@ class editstation extends Component {
                 stationname: '',
                 location: ''
             });
+            alert('Station Edited Successfully');
             this.props.history.push("/viewstation")
         })
             .catch((error) => {
@@ -76,7 +77,7 @@ class editstation extends Component {
     render() {
         const { stationname, location } = this.state;
         return (
-            <Page title="Add Station" breadcrumbs={[{ name: 'Add Station', active: true }]}>
+            <Page title="Edit Station" breadcrumbs={[{ name: 'Edit Station', active: true }]}>
                 <Row>
                     <Col xl={6} lg={12} md={12}>
                         <Card>

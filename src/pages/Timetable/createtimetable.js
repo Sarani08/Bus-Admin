@@ -1,5 +1,5 @@
 import Page from 'components/Page';
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
     Button,
     Card,
@@ -27,10 +27,38 @@ class createtimetable extends Component {
         this.state = {
             traveldate: '',
             traveltime: '',
-            boardinggate: ''
+            boardinggate: '',
+            selectbus:''
 
-                };
+        };
+
+        this.ref2 = firebase.firestore().collection('drivers');
+
+        // this.state2 = {
+        //     drivers: []
+        // }
+
     }
+
+    onUpdate = (querySnapshot) => {
+        const drivers = [];
+        querySnapshot.forEach((doc) => {
+            const { licensenumber }  = doc.data();
+          drivers.push({
+            key: doc.id,
+            licensenumber,
+                     });
+        });
+        this.setState({
+            drivers
+       });
+
+    }
+
+    componentDidMount() {
+        this.unsubscribe = this.ref2.onSnapshot(this.onUpdate);
+      }
+
     onChange = (e) => {
         const state = this.state
         state[e.target.name] = e.target.value;
@@ -41,18 +69,21 @@ class createtimetable extends Component {
     onSubmit = (e) => {
         e.preventDefault();
 
-        const { traveldate, traveltime, boardinggate} = this.state;
+        const { traveldate, traveltime, boardinggate,selectbus } = this.state;
 
         this.ref.add({
             traveldate,
             traveltime,
-            boardinggate
+            boardinggate,
+            selectbus
         }).then((docRef) => {
             this.setState({
                 traveldate: '',
                 traveltime: '',
-                boardinggate: ''
+                boardinggate: '',
+                selectbus:''
             });
+            alert('Timetable Added Successfully');
             this.props.history.push("/viewtimetable")
         })
             .catch((error) => {
@@ -62,58 +93,66 @@ class createtimetable extends Component {
 
 
 
-render() {
-    return (
-        <Page title="Add Timetable" breadcrumbs={[{ name: 'Add Timetable', active: true }]}>
-            <Row>
-                <Col xl={6} lg={12} md={12}>
-                    <Card>
-                        <CardHeader>Timetable</CardHeader>
-                        <CardBody>
-                            <Form onSubmit={this.onSubmit}>
-                                <FormGroup>
-                                    <Label for="traveldate">Travel Date</Label>
-                                    <Input
-                                        type="date"
-                                        name="traveldate"
-                                        onChange={this.onChange}
+    render() {
+        return (
+            <Page title="Add Timetable" breadcrumbs={[{ name: 'Add Timetable', active: true }]}>
+                <Row>
+                    <Col xl={6} lg={12} md={12}>
+                        <Card>
+                            <CardHeader>Timetable</CardHeader>
+                            <CardBody>
+                                <Form onSubmit={this.onSubmit}>
+                                    <FormGroup>
+                                        <Label for="traveldate">Travel Date</Label>
+                                        <Input
+                                            type="date"
+                                            name="traveldate"
+                                            onChange={this.onChange}
 
-                                     />
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label for="traveltime">Travel Time</Label>
-                                    <Input
-                                        type="time"
-                                        name="traveltime"
-                                        onChange={this.onChange}
+                                        />
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Label for="traveltime">Travel Time</Label>
+                                        <Input
+                                            type="time"
+                                            name="traveltime"
+                                            onChange={this.onChange}
 
-                                    />
-                                </FormGroup>
+                                        />
+                                    </FormGroup>
 
-                                <FormGroup>
-                                    <Label for="boardinggate">Boarding Gate</Label>
-                                    <Input
-                                        type="text"
-                                        name="boardinggate"
-                                        onChange={this.onChange}
+                                    <FormGroup>
+                                        <Label for="boardinggate">Boarding Gate</Label>
+                                        <Input
+                                            type="text"
+                                            name="boardinggate"
+                                            onChange={this.onChange}
 
-                                    />
-                                </FormGroup>
+                                        />
+                                    </FormGroup>
 
-                                <FormGroup check row>
-                                    <Col sm={{ size: 10, offset: 2 }}>
-                                        <Button>Submit</Button>
-                                    </Col>
-                                </FormGroup>
-                            </Form>
-                        </CardBody>
-                    </Card>
-                </Col>
+                                    <FormGroup>
+                                        <Label for="selectbus">Select Bus</Label>
+                                        <Input type="select" name="selectbus">
+                                        {this.state.drivers.map(driver =>
+                                        <option value ={driver.key}>{driver.licensenumber}</option>
+                                        )} 
+                                        </Input>
+                                    </FormGroup>
+                                    <FormGroup check row>
+                                        <Col sm={{ size: 10, offset: 2 }}>
+                                            <Button>Submit</Button>
+                                        </Col>
+                                    </FormGroup>
+                                </Form>
+                            </CardBody>
+                        </Card>
+                    </Col>
 
-            </Row>
-        </Page>
-    );
-}
+                </Row>
+            </Page>
+        );
+    }
 }
 
 export default createtimetable;
